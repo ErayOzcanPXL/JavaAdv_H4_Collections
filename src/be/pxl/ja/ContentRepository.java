@@ -14,6 +14,7 @@ public class ContentRepository {
 
 	public List<Content> getContentList() {
 		List<Content> contentList = new ArrayList<>();
+
 		Movie theIncredibles = new Movie("The Incredibles", Rating.LITTLE_KIDS);
 		theIncredibles.setReleaseDate(LocalDate.of(2004, 10, 27));
 		theIncredibles.setImageUrl("the_incredibles.jpeg");

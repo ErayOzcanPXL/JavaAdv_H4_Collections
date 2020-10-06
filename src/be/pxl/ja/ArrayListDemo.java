@@ -18,12 +18,15 @@ public class ArrayListDemo {
 
 		System.out.println("Size before: " + contentList.size());
 		Iterator<Content> contentIterator = contentList.iterator();
+
 		while (contentIterator.hasNext()) {
 			Content content = contentIterator.next();
+
 			if (content.getImageUrl() == null) {
 				contentIterator.remove();
 			}
 		}
+
 		System.out.println("Size after: " + contentList.size());
 	}
 }
