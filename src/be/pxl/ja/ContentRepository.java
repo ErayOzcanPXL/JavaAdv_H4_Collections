@@ -9,6 +9,8 @@ import be.pxl.ja.streamingservice.model.TVShow;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 public class ContentRepository {
 
@@ -44,4 +46,11 @@ public class ContentRepository {
 
 		return contentList;
 	}
+
+    public Set<Content> getContentSet() {
+        Set<Content> contentSet = new HashSet<>();
+        contentSet.addAll(getContentList());
+
+        return contentSet;
+    }
 }

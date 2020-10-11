@@ -1,21 +1,22 @@
 package be.pxl.ja.streamingservice.model;
 
 import be.pxl.ja.streamingservice.util.PasswordUtil;
+import be.pxl.ja.streamingservice.exception.TooManyProfilesException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Account {
 	private String email;
 	private String password;
 	private PaymentInfo paymentInfo;
 	private StreamingPlan streamingPlan;
-	private List<Profile> profiles = new ArrayList<>();
+    private Map<String, Profile> profiles = new HashMap<>();
 
 	public Account(String email, String password) {
 		this.email = email;
 		setPassword(password);
-		profiles.add(new Profile("Profile1"));
+        profiles.put("Profile1", new Profile("Profile1"));
 	}
 
 	public void setStreamingPlan(StreamingPlan streamingPlan) {
@@ -23,7 +24,11 @@ public class Account {
 	}
 
 	public void addProfile(Profile profile) {
-		profiles.add(profile);
+        if (profiles.size() == streamingPlan.getNumberOfScreens()) {
+            throw new TooManyProfilesException("Maximum aantal profielen bereikt.");
+        }
+
+        profiles.put(profile.getName(), profile);
 	}
 
 	public String getEmail() {
@@ -46,7 +51,7 @@ public class Account {
 		this.password = PasswordUtil.encodePassword(password);
 	}
 
-	public Profile getFirstProfile() {
-		return profiles.get(0);
-	}
+    public Profile getProfile(String name) {
+        return profiles.get(name);
+    }
 }

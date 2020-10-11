@@ -6,17 +6,22 @@ import be.pxl.ja.streamingservice.exception.InvalidDateException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayDeque;
 
 public class Profile {
 	private static final int MAX_RECENTLY_WATCHED_SIZE = 5;
 	private static final int MAX_CURRENTLY_WATCHING_SIZE = 3;
+    private Deque<Content> currentlyWatching;
+    private Deque<Content> recentlyWatchted;
 	private String name;
 	private LocalDate dateOfBirth;
 
 	public Profile(String name) {
 		this.name = name;
+        currentlyWatching = new LinkedList<>();
+        recentlyWatchted = new ArrayDeque<>();
 	}
 
 	public String getName() {
@@ -48,4 +53,23 @@ public class Profile {
 	public boolean allowedToWatch(Content content) {
 		return content.getMaturityRating().getMinimumAge() <= getAge();
 	}
+
+    public void startWatching(Content content) {
+        if (!currentlyWatching.contains(content)) {
+            currentlyWatching.addFirst(content);
+        }
+    }
+
+    public void finishWatching(Content content) {
+        currentlyWatching.remove(content);
+        recentlyWatchted.add(content);
+    }
+
+    public Deque<Content> getCurrentlyWatching() {
+        return currentlyWatching;
+    }
+
+    public Deque<Content> getRecentlyWatchted() {
+        return recentlyWatchted;
+    }
 }
